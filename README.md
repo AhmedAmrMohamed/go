@@ -1,4 +1,5 @@
 Go is an abstract strategy board game for two players, in which the aim is to surround more territory than the opponent. This c++ program allows two players to play the game nut the tricky part is that it rejects all the illegal moves and automatically enforce most of it's rules (which can be sort of complicated). 
+
 features:
 -Can detect and prevent self capture.
 -Can detect when an enemy stone(s) should be removed from the board.
