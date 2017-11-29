@@ -178,7 +178,7 @@ void adj(int a,int b,char trplay)//determine which stones belongs to strin that 
 
 	 printf("X %d O %d\n",cnx,cny);
 	 cout<<"CREDITS\n";
-	 cout<<"Developed by : Ahmed Amr\nTested : Tobros Balil ;)\n";
+	 cout<<"Developed by : Ahmed Amr\n";
  }
 int main()
 {
