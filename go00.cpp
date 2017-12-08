@@ -182,6 +182,8 @@ void adj(int a,int b,char trplay)//determine which stones belongs to strin that 
  }
 int main()
 {
+	system("cls");
+	system("color 02");
 	fclose(fopen("moves.txt","w"));//discard all content of moves.txt
 	string corr;
 	int x,spare,y,nx,ny; //true-->x turns
@@ -200,7 +202,7 @@ int main()
 			else cout<<"O turn :\n";
 			getline(cin,corr);
 			if(corr=="load"){turn=load();continue;}
-			if(corr=="ave"){save(turn);return 0;}
+			if(corr=="save"){save(turn);return 0;}
 			if(corr!="pass")
 			 {
 					if(corr.size()!=3){cout<<"invalid move...\n";continue;}
@@ -229,7 +231,7 @@ int main()
 					{
 						validpass=true;
 					}
-					else {cout<<"Can\'t play for selfcapture...\n";turn=!turn;validpass=false;}
+					else {system("cls");cout<<"Can\'t play for selfcapture...\n";turn=!turn;validpass=false;}
 				}
 				else
 				{
@@ -245,6 +247,7 @@ int main()
 				}
 				if(validpass)
 				{
+					system("cls");
 					p[x][y]=inp;
 				loogingmoves(x,y,turn);
 				loogingboard();
