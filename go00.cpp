@@ -22,14 +22,21 @@ void save(int turn)
 {
 	int x,y;
 	char c;
-	FILE *old=fopen("lastboard.dat","r");
+	// FILE *old=fopen("lastboard.dat","r");
 	FILE *newf=fopen("save.txt","w");
 	fprintf(newf, "%d\n", turn);
-	while(!feof(old))
+	for(int i=1;i<=9;i++)
 	{
-		fscanf(old,"%c",&c);
-		fprintf(newf, "%c",c);
+		for (int j=1;j<=9;j++)
+		{
+			c=p[i][j];
+			fprintf(newf, "%c",c);
+		}
+		fprintf(newf, "\n" );
 	}
+		// fscanf(old,"%c",&c);
+
+	cout<<"SAVED\n";
 }
 bool load()
 {
@@ -37,6 +44,11 @@ bool load()
 	char c;
 	int turn;
 	FILE *save = fopen("save.txt","r");
+	if(save==NULL)
+			{
+				cout<<"Can't find any saved data\n";
+				return false;
+			}
 	fscanf(save,"%d",&turn);
 	for(int i=1;i<=9;i++)
 	{
@@ -46,6 +58,7 @@ bool load()
 	{p[i][j]=raw[j-1];}
 	}
 	fclose(save);
+	cout<<"Loaded\n";
 	display();
 	return turn;
 }
@@ -183,6 +196,7 @@ void adj(int a,int b,char trplay)//determine which stones belongs to strin that 
 int main()
 {
 	system("cls");
+	system("title go");
 	system("color 02");
 	fclose(fopen("moves.txt","w"));//discard all content of moves.txt
 	string corr;
