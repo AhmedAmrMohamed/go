@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-char board[11][11];
-char p[11][11]={0}; //the playing board
+char board[11][11];										//for testing and manuiplaiton
+char p[11][11]={0}; 									//the playing board
 int dx[4]={0,0,1,-1},dy[4]={1,-1,0,0};//up,down,right,left
 std::queue<pair <int,int > > dir;
 void display()
@@ -11,6 +11,7 @@ void display()
 }
 void loogingmoves(int x,int y,bool move)
 {
+	 //log every move and who played in moves a txt file.
 	FILE *logmove;
 	logmove=fopen("moves.txt","a");
 	char c;
@@ -20,23 +21,35 @@ void loogingmoves(int x,int y,bool move)
 }
 void save(int turn)
 {
+	//save the in current p array in save.txt and whose turn
 	int x,y;
 	char c;
-	FILE *old=fopen("lastboard.dat","r");
 	FILE *newf=fopen("save.txt","w");
 	fprintf(newf, "%d\n", turn);
-	while(!feof(old))
+	for(int i=1;i<=9;i++)
 	{
-		fscanf(old,"%c",&c);
-		fprintf(newf, "%c",c);
+		for (int j=1;j<=9;j++)
+		{
+			c=p[i][j];
+			fprintf(newf, "%c",c);
+		}
+		fprintf(newf, "\n" );
 	}
+	cout<<"SAVED\n";
 }
 bool load()
 {
+	// copy the board from the save.txt to p-array
+	//return false if the file doesn't exist
 	char raw[20];
 	char c;
 	int turn;
 	FILE *save = fopen("save.txt","r");
+	if(save==NULL)
+			{
+				cout<<"Can't find any saved data\n";
+				return false;
+			}
 	fscanf(save,"%d",&turn);
 	for(int i=1;i<=9;i++)
 	{
@@ -46,11 +59,15 @@ bool load()
 	{p[i][j]=raw[j-1];}
 	}
 	fclose(save);
+	cout<<"Loaded\n";
 	display();
 	return turn;
 }
 void loogingboard()
 {
+	//save the whole board in file.
+	//the file will contiain the last satate of the lastboard
+	//shall be used to to check ko state
 	FILE *board;
 	board=fopen("lastboard.dat","w");
 	for(int i=1;i<=9;i++){for(int j=1;j<=9;j++)fprintf(board, "%c",p[i][j]);fprintf(board, "\n");}
@@ -96,8 +113,9 @@ bool strliberity(int a,int b)
 	}
 	return false;
 }
-void adj(int a,int b,char trplay)//determine which stones belongs to strin that can be captured
+void adj(int a,int b,char trplay)
 {
+	//determine which stones belongs to strin that can be captured
 	int x,y;
 	char c=board[a][b],inversc;
 	(trplay=='X')?inversc='O':inversc='X';
@@ -159,6 +177,8 @@ void adj(int a,int b,char trplay)//determine which stones belongs to strin that 
  }
  void clcpoints()
  {
+	 //count the number of stones and territories for each player.
+	 //and show the winner.
 	 copy();
 	 int cnx=0,cny=0;
 	 for(int i=1;i<=9;i++)for(int j=1;j<=9;j++)
@@ -178,10 +198,13 @@ void adj(int a,int b,char trplay)//determine which stones belongs to strin that 
 
 	 printf("X %d O %d\n",cnx,cny);
 	 cout<<"CREDITS\n";
-	 cout<<"Developed by : Ahmed Amr\nTested : Tobros Balil ;)\n";
+	 cout<<"Developed by : Ahmed Amr\n";
  }
 int main()
 {
+	system("cls");
+	system("title go");
+	system("color 02");
 	fclose(fopen("moves.txt","w"));//discard all content of moves.txt
 	string corr;
 	int x,spare,y,nx,ny; //true-->x turns
@@ -200,7 +223,7 @@ int main()
 			else cout<<"O turn :\n";
 			getline(cin,corr);
 			if(corr=="load"){turn=load();continue;}
-			if(corr=="ave"){save(turn);return 0;}
+			if(corr=="save"){save(turn);return 0;}
 			if(corr!="pass")
 			 {
 					if(corr.size()!=3){cout<<"invalid move...\n";continue;}
@@ -229,7 +252,7 @@ int main()
 					{
 						validpass=true;
 					}
-					else {cout<<"Can\'t play for selfcapture...\n";turn=!turn;validpass=false;}
+					else {system("cls");cout<<"Can\'t play for selfcapture...\n";turn=!turn;validpass=false;}
 				}
 				else
 				{
@@ -245,6 +268,7 @@ int main()
 				}
 				if(validpass)
 				{
+					system("cls");
 					p[x][y]=inp;
 				loogingmoves(x,y,turn);
 				loogingboard();
